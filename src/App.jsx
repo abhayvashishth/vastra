@@ -1,6 +1,3 @@
-// import React, {useState} from 'react'
-// import {Routes,Route} from "react-router-dom"
-// import{createBrowserRouter, RouterProvider} from "react-router-dom"
 import Home from './pages/Home'
 import Collection from "./pages/Collection"
 import About from "./pages/About"
@@ -19,6 +16,7 @@ import SmallSearchBar from './components/SmallSearchBar'
 import { useContext } from 'react'
 import { ShopContext } from './context/ShopContext'
 import Protected from './components/Protected'
+
 
 
 
@@ -42,8 +40,7 @@ const App = () => {
         <Route path='/login' element={<Login/>} />
         <Route path='/orders' element={<Protected Component={Orders} />} />
         <Route path='/place-order' element={<Protected Component={PlaceOrder}/> } />
-        <Route path='/product/:productId' element={<Product/>} />
-      </Routes>
+        <Route path='/product/:productId' element={<Product/>} />      </Routes>
       <Footer/>
 
     </div>

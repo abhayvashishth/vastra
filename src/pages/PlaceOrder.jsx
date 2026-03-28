@@ -4,13 +4,15 @@ import CartTotal from './CartTotal'
 import { assets } from '../assets/assets'
 import { ShopContext } from '../context/ShopContext'
 import { toast } from 'react-toastify'
+import { SupabaseContext } from '../context/SupabaseContext'
+
 
 const PlaceOrder = () => {
 
   const [method, setMethod] = useState('cod')
   const {navigate} = useContext(ShopContext)
   const [userData, setUserData] = useState({});
-  const [formData, setFormData] = useState([])
+  const {formData, setFormData} = useContext(SupabaseContext)
   
   
 
@@ -91,6 +93,7 @@ const PlaceOrder = () => {
         if(tArray.length >= 9){
           setFormData(tArray)
           toast.success('Your form is submitted')
+          console.log(formData)
         }else{
           toast.error('Form is Incomplete')
         }
@@ -123,6 +126,8 @@ const PlaceOrder = () => {
                 <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'razorpay' ? 'bg-green-400' : ''} `}></p>
                 <img className='h-5 mx-4' src={assets.razorpay_logo} alt="" />
               </div>
+
+              {/* Stripe integration removed - add back when implementing payments */}
 
               <div onClick={()=>setMethod('cod')} className={`flex rounded-lg items-center gap-3 border p-2 px-3 cursor-pointer ${method === 'cod' ? 'border-green-400' : ''} `}>
                 <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'cod' ? 'bg-green-400' : ''} `}></p>

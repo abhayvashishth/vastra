@@ -47,3 +47,30 @@ a.active{
   }
 } */
 
+.pass-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.pass-input-container input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px; /* Space for the eye icon */
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%); /* Centers the icon vertically */
+  cursor: pointer;
+  width: 20px; /* Adjust based on your icon size */
+  opacity: 0.6;
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+

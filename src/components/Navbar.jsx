@@ -5,12 +5,15 @@ import { Link, useLocation } from 'react-router-dom'
 import{NavLink} from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
 import SearchBar from './SearchBar'
+import { SupabaseContext } from '../context/SupabaseContext'
+
 
 
 const Navbar= () => {
-  const [visible, setVisible] = useState(false)
-  const {showSearch, setShowSearch, getCartCount} = useContext(ShopContext)
+  const [visible, setVisible] = useState(false);
+  const {showSearch, setShowSearch, getCartCount} = useContext(ShopContext);
   const location = useLocation();
+  const {logout, user} = useContext(SupabaseContext);
 
   
 
@@ -65,7 +68,9 @@ const Navbar= () => {
                     <div className='flex flex-col gap-2 w-36 text-center text-slate-100 bg-gray-600 rounded-lg border border-gray-600'>
                         <Link to={'/login'}><p className='cursor-pointer hover:text-black hover:bg-white rounded-lg p-1'>My Profile</p></Link>
                         <Link to="/orders"><p className='cursor-pointer hover:text-black hover:bg-white rounded-lg p-1'>Orders</p></Link>
-                        <p className='cursor-pointer hover:text-black hover:bg-white rounded-lg p-1'>LogOut</p>
+                        {
+                          user?<button onClick={logout} className='cursor-pointer hover:text-black hover:bg-white rounded-lg p-1'>LogOut</button>:null
+                        }
                     </div>
                 </div>
             </div>

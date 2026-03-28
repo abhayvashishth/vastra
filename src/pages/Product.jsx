@@ -3,12 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
 import {assets} from "../assets/assets"
 import RelatedProducts from '../components/RelatedProducts'
-import { FirebaseContext } from '../context/FirebaseContext'
+import { SupabaseContext } from '../context/SupabaseContext'
 
 const Product = () => {
   const {productId} = useParams()
   const {products, currency, addToCart} = useContext(ShopContext)
-  const {user} = useContext(FirebaseContext)
+  const {user} = useContext(SupabaseContext)
   const [productData, setProductData] = useState()
   const [image, setImage] = useState('')
   const [random, setRandom] = useState(Math.floor(Math.random()*99 + 133))

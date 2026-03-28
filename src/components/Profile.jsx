@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { FirebaseContext } from '../context/FirebaseContext';
+import { useContext } from 'react';
+import { SupabaseContext } from '../context/SupabaseContext';
 
 const Profile = ({ name, bio, profilePicture, skills, email }) => {
-    const {logout} = useContext(FirebaseContext)
+    const {logout, loading} = useContext(SupabaseContext)
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
@@ -44,8 +44,10 @@ const Profile = ({ name, bio, profilePicture, skills, email }) => {
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
             Edit Profile
           </button>
-          <button onClick={logout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">
-            Log Out
+          <button disabled={loading} onClick={logout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">
+             {
+              loading? 'Logging Out...' : 'Logout'
+             }
           </button>
         </div>
       </div>

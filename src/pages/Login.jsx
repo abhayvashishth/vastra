@@ -1,14 +1,14 @@
-import React,{useContext} from 'react'
+import {useContext} from 'react'
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
-import { FirebaseContext } from '../context/FirebaseContext';
+import { SupabaseContext } from '../context/SupabaseContext';
 import { assets } from '../assets/assets';
 import Profile from '../components/Profile';
 
 
-const Login = () => {
+const Login = () => { 
 
-  const { signUpUserWithEmailAndPassword, loginUserWithEmailAndPassword, loginState, email, password, signUpWithGoogle, user} = useContext(FirebaseContext);
+  const { signUpUserWithEmailAndPassword, loginUserWithEmailAndPassword, loginState, email, password, signUpWithGoogle, user, loading} = useContext(SupabaseContext);
 
 if(user === null){
     
@@ -19,22 +19,35 @@ if(user === null){
         <hr className='border-none h-[1.5px] w-8 bg-gray-800 ' />
       </div>
 
-      {loginState === 'Login' ? <SignIn/> : <SignUp/>}
+      <form className='flex flex-col' onSubmit={(e)=>{
+        e.preventDefault();
+        if(loginState === 'Login'){
+          loginUserWithEmailAndPassword(email, password);
+        }else{
+          signUpUserWithEmailAndPassword(email, password)
+        }
+      }}>
+         {loginState === 'Login' ? <SignIn/> : <SignUp/>}
+         
 
-      <button onClick={loginState === "SignUp" ? ()=>signUpUserWithEmailAndPassword(email, password) : ()=>loginUserWithEmailAndPassword(email, password) } className='bg-black text-white font-light px-8 py-2 mt-4'> {loginState === 'Login' ? 'Sign In' : 'Sign Up'} </button>
+          {
+            loading? <button className='bg-black text-white font-light px-8 py-2 mt-4' type='button'>Loading...</button> : <button type='submit' className='bg-black text-white font-light px-8 py-2 mt-4'> {loginState === 'Login' ? 'Sign In' : 'Sign Up'} </button>
 
+          }
               {/* Google Button */}
-      <button onClick={signUpWithGoogle} className="flex items-center justify-center bg-white border border-gray-300 rounded-md py-2 px-4 shadow-sm hover:shadow-md transition-shadow duration-300"
+           <button onClick={signUpWithGoogle} type='button' className="flex items-center justify-center bg-white border border-gray-300 rounded-md py-2 px-4 shadow-sm hover:shadow-md transition-shadow duration-300"
 >
         <img src={assets.google_logo}  alt="Google Logo" className="mr-2 w-8"/>
       Sign in with Google
     </button>
 
+      </form>
+      
     </div>
   )
 }
 return (
-  <Profile name={user.displayName} bio={"A Student"} profilePicture={user.photoURL} skills={["Gaming", "Coding", "Travelling"]} email={user.email}/>
+  <Profile name={user.displayName} bio={"A Student"} profilePicture={user.photoURL} skills={["Coding", "Travelling"]} email={user.email}/>
 )
 }
 
