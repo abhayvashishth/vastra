@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { SupabaseContext } from '../context/SupabaseContext'
 import Passinput from './Passinput'
 
@@ -18,4 +18,4 @@ function SignIn() {
   )
 }
 
-export default SignIn
+export default SignIn 

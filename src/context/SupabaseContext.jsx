@@ -26,20 +26,21 @@ const SupabaseProvider = (props) => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      // console.log(session?session:"No Session")
      
     });
 
-    // Cleanup function
     return () => subscription.unsubscribe();
   }, []);
 
-  // Sign up with email and password
+
   const signUpUserWithEmailAndPassword = async (email, password) => {
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
+      options: {
+        emailRedirectTo: 'https://vastra0.netlify.app'
+      }
     });
 
 
@@ -56,7 +57,6 @@ const SupabaseProvider = (props) => {
     }
   };
 
-  // Login with email and password
   const loginUserWithEmailAndPassword = async (email, password) => {
     setLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -65,18 +65,24 @@ const SupabaseProvider = (props) => {
     });
 
     if (error) {
-      setLoading(false)
-      toast.error("Please check your credentials");
-      console.log(error)
+      setLoading(false);
+      
+      if (error.message.includes("Email not confirmed")) {
+        toast.error("Please verify your email before logging in. Check your inbox.");
+      } else {
+        toast.error("Please check your credentials");
+      }
+
+      setPassword("");
+      console.log(error);
     } else {
-      setLoading(false)
+      setLoading(false);
       toast.success("Logged in successfully");
       setEmail("");
       setPassword("");
     }
   };
 
-  // Sign in with Google
   const signUpWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -87,7 +93,7 @@ const SupabaseProvider = (props) => {
     }
   };
 
-  // Logout
+
   const logout = async () => {
     setLoading(true);
     const { error } = await supabase.auth.signOut();
@@ -98,7 +104,6 @@ const SupabaseProvider = (props) => {
     setLoading(false)
   };
 
-  // Put data function (we'll use Supabase database instead)
   const putData = async (table, data) => {
     const { error } = await supabase.from(table).insert(data);
     if (error) {
@@ -106,7 +111,7 @@ const SupabaseProvider = (props) => {
     }
   };
 
-  // Pack everything to share with the app
+
   const value = {
     signUpUserWithEmailAndPassword,
     loginUserWithEmailAndPassword,
